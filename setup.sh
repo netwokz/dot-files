@@ -103,7 +103,7 @@ function aur_install_pkg(){
 
         else
             echo "$pkg is not installed"
-            sudo yay -S $pkg --answerclean None --answerdiff None
+            yay -S $pkg --noconfirm --answerclean None --answerdiff None
         fi
     done
 }
