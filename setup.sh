@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # which packages to install from AUR, in this order!
-aurpkgs="google-chrome"
+aurpkgs="yay"
 
 # exit on errors
 set -e
@@ -59,8 +59,8 @@ rm -rf "$buildroot"
 #        echo "Offline"
 #fi
 
-pacman_packages=("nautilus" "micro" "kitty")
-aur_packages=("visual-studio-code-bin")
+pacman_packages=("thunar" "micro" "kitty")
+aur_packages=("visual-studio-code-bin" "google-chrome")
 
 function pac_remove_pkg(){
     echo "Removing packages..."
@@ -93,9 +93,25 @@ function pac_install_pkg(){
     done
 }
 
+function aur_install_pkg(){
+    echo "Insalling packages..."
+    for pkg in ${aur_packages[@]};do
+        if [[ $(command -v $pkg) ]]; then
+            echo "$pkg is installed"
+            #echo "Removing $pkg"
+            #pacman -R $pkg --noconfirm
+
+        else
+            echo "$pkg is not installed"
+            yay -S $pkg --answerclean None --answerdiff None
+        fi
+    done
+}
+
 #pac_remove_pkg
 
-#pac_install_pkg
+pac_install_pkg
+aur_install_pkg
 
 function make_install(){
     cd /home/netwokz/
