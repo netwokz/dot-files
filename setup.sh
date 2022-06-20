@@ -88,7 +88,7 @@ function pac_install_pkg(){
 
         else
             echo "$pkg is not installed"
-            pacman -S $pkg --noconfirm --noprogressbar
+            sudo pacman -S $pkg --noconfirm --noprogressbar
         fi
     done
 }
@@ -103,7 +103,7 @@ function aur_install_pkg(){
 
         else
             echo "$pkg is not installed"
-            yay -S $pkg --answerclean None --answerdiff None
+            sudo yay -S $pkg --answerclean None --answerdiff None
         fi
     done
 }
