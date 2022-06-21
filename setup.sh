@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pacman_packages=("thunar" "micro" "kitty")
+pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "dmenu")
 aur_packages=("visual-studio-code-bin" "google-chrome")
 
 # exit on errors
