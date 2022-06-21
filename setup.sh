@@ -1,5 +1,8 @@
 #!/bin/bash
 
+pacman_packages=("thunar" "micro" "kitty")
+aur_packages=("visual-studio-code-bin" "google-chrome")
+
 # exit on errors
 set -e
 
@@ -53,7 +56,6 @@ function install_yay(){
     rm -rf "$buildroot"
 }
 
-
 #wget -q --tries=10 --timeout=20 --spider http://google.com
 #if [[ $? -eq 0 ]]; then
 #        echo "Online"
@@ -61,9 +63,6 @@ function install_yay(){
 #else
 #        echo "Offline"
 #fi
-
-pacman_packages=("thunar" "micro" "kitty")
-aur_packages=("visual-studio-code-bin" "google-chrome")
 
 function pac_remove_pkg(){
     echo "Removing packages..."
@@ -111,7 +110,7 @@ function aur_install_pkg(){
 }
 
 #pac_remove_pkg
-
+install_yay
 pac_install_pkg
 aur_install_pkg
 
