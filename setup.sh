@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# which packages to install from AUR, in this order!
-aurpkgs="yay"
-
 # exit on errors
 set -e
 
@@ -20,36 +17,42 @@ sudo -v
 info "we need packages from 'base-devel'"
 sudo pacman -S --noconfirm base-devel
 
-# make and enter build environment
-buildroot="$(mktemp -d /tmp/install-pacaur-XXXXXX)"
-info "switching to temporary directory '$buildroot'"
-mkcd "$buildroot"
+function install_yay(){
+    # which packages to install from AUR, in this order!
+    aurpkgs="yay"
+    
+    # make and enter build environment
+    buildroot="$(mktemp -d /tmp/install-pacaur-XXXXXX)"
+    info "switching to temporary directory '$buildroot'"
+    mkcd "$buildroot"
 
-# set link to plaintext PKGBUILDs
-pkgbuild="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h"
-info "using '$pkgbuild=<package>' for plaintext PKGBUILDs"
+    # set link to plaintext PKGBUILDs
+    pkgbuild="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h"
+    info "using '$pkgbuild=<package>' for plaintext PKGBUILDs"
 
-# loop over required packages
-info "looping over all packages in \$aurpkgs: '$aurpkgs'"
-for pkg in $aurpkgs; do
+    # loop over required packages
+    info "looping over all packages in \$aurpkgs: '$aurpkgs'"
+    for pkg in $aurpkgs; do
 
-    info "create subdirectory for $pkg"
-    mkcd "$buildroot/$pkg"
+        info "create subdirectory for $pkg"
+        mkcd "$buildroot/$pkg"
 
-    info "fetch PKGBUILD for $pkg"
-    curl -o PKGBUILD "$pkgbuild=$pkg"
+        info "fetch PKGBUILD for $pkg"
+        curl -o PKGBUILD "$pkgbuild=$pkg"
 
-    info "fetch required pgp keys from PKGBUILD"
-    gpg --recv-keys $(sed -n "s:^validpgpkeys=('\([0-9A-Fa-fx]\+\)').*$:\1:p" PKGBUILD)
+        info "fetch required pgp keys from PKGBUILD"
+        gpg --recv-keys $(sed -n "s:^validpgpkeys=('\([0-9A-Fa-fx]\+\)').*$:\1:p" PKGBUILD)
 
-    info "make and install ..."
-    makepkg -si --noconfirm
+        info "make and install ..."
+        makepkg -si --noconfirm
 
-done
+    done
 
-info "finished. cleaning up .."
-cd "$buildroot/.."
-rm -rf "$buildroot"
+    info "finished. cleaning up .."
+    cd "$buildroot/.."
+    rm -rf "$buildroot"
+}
+
 
 #wget -q --tries=10 --timeout=20 --spider http://google.com
 #if [[ $? -eq 0 ]]; then
@@ -72,40 +75,39 @@ function pac_remove_pkg(){
             sleep 2
 
         else
-            echo "$pkg is not installed"
+            #echo "$pkg is not installed"
             #pacman -S $pkg --answerclean None --answerdiff None
         fi
     done    
 }
 
 function pac_install_pkg(){
-    echo "Insalling packages..."
     for pkg in ${pacman_packages[@]};do
         if [[ $(command -v $pkg) ]]; then
-            echo "$pkg is installed"
-            #echo "Removing $pkg"
-            #pacman -R $pkg --noconfirm
+            echo "$pkg is already installed"
 
         else
-            echo "$pkg is not installed"
+            echo "Installing $pkg"
             sudo pacman -S $pkg --noconfirm --noprogressbar
         fi
     done
 }
 
 function aur_install_pkg(){
-    echo "Insalling packages..."
-    for pkg in ${aur_packages[@]};do
-        if [[ $(command -v $pkg) ]]; then
-            echo "$pkg is installed"
-            #echo "Removing $pkg"
-            #pacman -R $pkg --noconfirm
-
-        else
-            echo "$pkg is not installed"
-            yay -S $pkg --noconfirm --answerclean None --answerdiff None
-        fi
-    done
+    if [[ $(command -v "yay") ]]; then
+        echo "Insalling packages..."
+        for pkg in ${aur_packages[@]};do
+            if [[ $(command -v $pkg) ]]; then
+                echo "$pkg is already installed"
+            else
+                echo "Installing $pkg"
+                yay -S $pkg --noconfirm --answerclean None --answerdiff None
+            fi            
+        done
+    else
+        echo "yay is not installed!"
+        sleep 5
+    fi
 }
 
 #pac_remove_pkg
