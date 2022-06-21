@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "dmenu")
+pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "dmenu" "nitrogen" "picom")
 aur_packages=("visual-studio-code-bin" "google-chrome")
 
 # exit on errors
@@ -56,14 +56,6 @@ function install_yay(){
     rm -rf "$buildroot"
 }
 
-#wget -q --tries=10 --timeout=20 --spider http://google.com
-#if [[ $? -eq 0 ]]; then
-#        echo "Online"
-#        sleep 5
-#else
-#        echo "Offline"
-#fi
-
 function pac_remove_pkg(){
     echo "Removing packages..."
     for pkg in ${pacman_packages[@]};do
@@ -74,7 +66,7 @@ function pac_remove_pkg(){
             sleep 2
 
         else
-            #echo "$pkg is not installed"
+            echo "$pkg is not installed"
             #pacman -S $pkg --answerclean None --answerdiff None
         fi
     done    
@@ -109,10 +101,17 @@ function aur_install_pkg(){
     fi
 }
 
+function copy_custom_files(){
+    cp -a $PWD/xmobar/. ~/.config/xmobar/
+    cp -a $PWD/xmonad/. ~/.xmonad/
+}
+
 #pac_remove_pkg
 install_yay
 pac_install_pkg
 aur_install_pkg
+
+copy_custom_files
 
 function make_install(){
     cd /home/netwokz/
@@ -123,6 +122,14 @@ function make_install(){
     sudo -u netwokz makepkg -si
     rm -rf /home/netwokz/temp_dir/
 }
+
+#wget -q --tries=10 --timeout=20 --spider http://google.com
+#if [[ $? -eq 0 ]]; then
+#        echo "Online"
+#        sleep 5
+#else
+#        echo "Offline"
+#fi
 
 #make_install
 #for pkg in ${aur_packages[@]};do
