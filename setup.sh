@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "dmenu" "nitrogen" "picom")
+pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "dmenu" "nitrogen" "picom" "lsd")
 aur_packages=("visual-studio-code-bin" "google-chrome")
 
 # exit on errors
@@ -104,6 +104,7 @@ function aur_install_pkg(){
 function copy_custom_files(){
     cp -a $PWD/xmobar/. ~/.config/xmobar/
     cp -a $PWD/xmonad/. ~/.xmonad/
+    echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
 }
 
 #pac_remove_pkg
