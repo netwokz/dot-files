@@ -106,10 +106,10 @@ function aur_install_pkg(){
 
 function copy_custom_files(){
     
-    cp -a workdir/xmobar/. ~/.config/xmobar/
-    cp -a workdir/xmonad/. ~/.xmonad/
-    cp -a workdir/logout-app/infoapp /usr/bin/
-    cp -a workdir/system76.png ~/Downloads/
+    cp -a $workdir/xmobar/. ~/.config/xmobar/
+    cp -a $workdir/xmonad/. ~/.xmonad/
+    cp -a $workdir/logout-app/infoapp /usr/bin/
+    cp -a $workdir/system76.png ~/Downloads/
     feh --bg-scale ~/Downloads/system76.png
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
 }
