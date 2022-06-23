@@ -20,6 +20,9 @@ sudo -v
 info "we need packages from 'base-devel'"
 sudo pacman -S --noconfirm base-devel
 
+# save current working directory
+workdir=$PWD
+
 function install_yay(){
     # which packages to install from AUR, in this order!
     aurpkgs="yay"
@@ -102,10 +105,11 @@ function aur_install_pkg(){
 }
 
 function copy_custom_files(){
-    cp -a $PWD/xmobar/. ~/.config/xmobar/
-    cp -a $PWD/xmonad/. ~/.xmonad/
-    cp -a $PWD/logout-app/infoapp /usr/bin/
-    cp -a $PWD/system76.png ~/Downloads/
+    
+    cp -a workdir/xmobar/. ~/.config/xmobar/
+    cp -a workdir/xmonad/. ~/.xmonad/
+    cp -a workdir/logout-app/infoapp /usr/bin/
+    cp -a workdir/system76.png ~/Downloads/
     feh --bg-scale ~/Downloads/system76.png
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
 }
