@@ -109,16 +109,16 @@ function copy_custom_files(){
     cp -a $workdir/xmobar/. ~/.config/xmobar/
     cp -a $workdir/xmonad/. ~/.xmonad/
     sudo cp -a $workdir/logout-app/infoapp /usr/bin/
-    cp -a $workdir/system76.png ~/Downloads/
+    cp -a $workdir/system76.png ~/Downloads/system76.png
     xfconf-query -c xfce4-desktop -p /backtdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
     feh --bg-scale ~/Downloads/system76.png
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
 }
 
 #pac_remove_pkg
-install_yay
+#install_yay
 pac_install_pkg
-aur_install_pkg
+#aur_install_pkg
 
 copy_custom_files
 
