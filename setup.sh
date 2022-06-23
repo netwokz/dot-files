@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# save current working directory
+workdir=$PWD
+
 pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "dmenu" "nitrogen" "picom" "lsd" "feh")
 aur_packages=("visual-studio-code-bin" "google-chrome" "btop")
 
@@ -19,9 +22,6 @@ sudo -v
 # make sure we can even build packages
 info "we need packages from 'base-devel'"
 sudo pacman -S --noconfirm base-devel
-
-# save current working directory
-workdir=$PWD
 
 function install_yay(){
     # which packages to install from AUR, in this order!
