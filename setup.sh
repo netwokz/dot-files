@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "dmenu" "nitrogen" "picom" "lsd")
-aur_packages=("visual-studio-code-bin" "google-chrome")
+aur_packages=("visual-studio-code-bin" "google-chrome" "btop")
 
 # exit on errors
 set -e
