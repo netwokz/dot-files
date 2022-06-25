@@ -3,7 +3,7 @@
 # save current working directory
 workdir=$PWD
 
-pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch")
+pacman_packages=("thunar" "thunar-volman" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb")
 aur_packages=("visual-studio-code-bin" "google-chrome" "snapd")
 
 # exit on errors
@@ -111,9 +111,12 @@ function copy_custom_files(){
     sudo cp -a $workdir/logout-app/infoapp /usr/bin/
     mkdir -p ~/Downloads
     sudo cp -a $workdir/system76.png ~/Downloads/
-    #xfconf-query -c xfce4-desktop -p /backtdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
+    #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace/last-image -s ~/Downloads/system76.png
     feh --bg-scale ~/Downloads/system76.png
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
+    sudo systemctl enable --now snapd.socket
+    sudo ln -s /var/lib/snapd/snap /snap
 }
 
 #pac_remove_pkg
