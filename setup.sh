@@ -3,8 +3,8 @@
 # save current working directory
 workdir=$PWD
 
-pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "dmenu" "nitrogen" "picom" "lsd" "feh")
-aur_packages=("visual-studio-code-bin" "google-chrome" "btop")
+pacman_packages=("thunar" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch")
+aur_packages=("visual-studio-code-bin" "google-chrome" "snapd")
 
 # exit on errors
 set -e
@@ -110,15 +110,15 @@ function copy_custom_files(){
     cp -a $workdir/xmonad/. ~/.xmonad/
     sudo cp -a $workdir/logout-app/infoapp /usr/bin/
     sudo cp -a $workdir/system76.png ~/Downloads/
-    xfconf-query -c xfce4-desktop -p /backtdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
+    #xfconf-query -c xfce4-desktop -p /backtdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
     feh --bg-scale ~/Downloads/system76.png
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
 }
 
 #pac_remove_pkg
-#install_yay
+install_yay
 pac_install_pkg
-#aur_install_pkg
+aur_install_pkg
 
 copy_custom_files
 
