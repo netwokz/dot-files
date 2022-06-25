@@ -109,6 +109,7 @@ function copy_custom_files(){
     cp -a $workdir/xmobar/. ~/.config/xmobar/
     cp -a $workdir/xmonad/. ~/.xmonad/
     sudo cp -a $workdir/logout-app/infoapp /usr/bin/
+    mkdir -p ~/Downloads
     sudo cp -a $workdir/system76.png ~/Downloads/
     #xfconf-query -c xfce4-desktop -p /backtdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
     feh --bg-scale ~/Downloads/system76.png
