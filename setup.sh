@@ -3,7 +3,10 @@
 # save current working directory
 workdir=$PWD
 
+# packages to install
 pacman_packages=("thunar" "thunar-volman" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb")
+
+# aur packages to install
 aur_packages=("visual-studio-code-bin" "google-chrome" "snapd")
 
 # exit on errors
@@ -112,7 +115,7 @@ function copy_custom_files(){
     mkdir -p ~/Downloads
     sudo cp -a $workdir/system76.png ~/Downloads/
     #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace/last-image -s ~/Downloads/system76.png
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
     feh --bg-scale ~/Downloads/system76.png
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
     sudo systemctl enable --now snapd.socket
