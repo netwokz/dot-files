@@ -116,7 +116,7 @@ function copy_custom_files(){
     sudo cp -a $workdir/powermenu/powermenu /usr/bin/
     cp -a $workdir/system76.png ~/Downloads/
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
-    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>p' -s rofi -show drun
+    xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
     #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
     xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
     #feh --bg-scale ~/Downloads/system76.png
@@ -131,6 +131,8 @@ pac_install_pkg
 aur_install_pkg
 
 copy_custom_files
+
+reboot
 
 function make_install(){
     cd /home/netwokz/
