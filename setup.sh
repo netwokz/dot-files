@@ -108,15 +108,18 @@ function aur_install_pkg(){
 }
 
 function copy_custom_files(){
-    
+    mkdir -p ~/Downloads
     cp -a $workdir/xmobar/. ~/.config/xmobar/
     cp -a $workdir/xmonad/. ~/.xmonad/
-    sudo cp -a $workdir/logout-app/infoapp /usr/bin/
-    mkdir -p ~/Downloads
-    sudo cp -a $workdir/system76.png ~/Downloads/
+    cp -a $workdir/rofi/. ~/.config/rofi/
+    cp -a $workdir/powermenu/powermenu-theme.rasi ~/.config/rofi/
+    sudo cp -a $workdir/powermenu/powermenu /usr/bin/
+    cp -a $workdir/system76.png ~/Downloads/
+    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
+    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>p' -s rofi -show drun
     #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
     xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
-    feh --bg-scale ~/Downloads/system76.png
+    #feh --bg-scale ~/Downloads/system76.png
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
