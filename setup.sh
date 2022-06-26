@@ -139,15 +139,20 @@ function setup_shell(){
 
 }
 
-sudo_me() {
- while []; do
-  echo "checking $$ ...$(date)"
-  sudo -v
-  sleep 5
- done &
+configurePermissions () {
+    sudo -v
+    refreshPermissions "$$" &
 }
 
-sudo_me
+refreshPermissions () {
+    local pid="${1}"
+
+    while kill -0 "${pid}" 2> /dev/null; do
+        sudo -v
+        sleep 10
+    done
+}
+configurePermissions
 
 install_yay
 pac_install_pkg
