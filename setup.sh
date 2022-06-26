@@ -140,9 +140,11 @@ function setup_shell(){
 
 #pac_remove_pkg
 install_yay
+sudo -v
 pac_install_pkg
+sudo -v
 aur_install_pkg
-
+sudo -v
 copy_custom_files
 setup_shell
 
