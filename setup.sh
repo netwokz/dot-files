@@ -4,7 +4,7 @@
 workdir=$PWD
 
 # packages to install
-pacman_packages=("thunar" "thunar-volman" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb")
+pacman_packages=("thunar" "thunar-volman" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship")
 
 # aur packages to install
 aur_packages=("visual-studio-code-bin" "google-chrome" "snapd")
@@ -123,9 +123,19 @@ function copy_custom_files(){
     #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
     xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
     #feh --bg-scale ~/Downloads/system76.png
-    echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
+}
+
+function setup_shell(){
+    touch -p ~/.histfile
+    cp -a $workdir/starship/starship.toml ~/.config/starship.toml
+    chsh -s $(which zsh)
+    echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
+    echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshhrc
+    echo "eval '$(starship init bash)'" >> ~/.bashrc
+    echo "eval '$(starship init zsh)'" >> ~/.zshrc
+
 }
 
 #pac_remove_pkg

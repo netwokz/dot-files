@@ -3,11 +3,14 @@
 # Inserts a blank line between shell prompts
 add_newline = true
 
+# Change command timeout from 500 to 1000 ms
+command_timeout = 1000
+
 # Change the default prompt format
 format = """\
 [╭╴](238)$env_var\
 $all[╰─](238)$character"""
-
+# 
 # Change the default prompt characters
 [character]
 success_symbol = "[](238)"
@@ -15,17 +18,22 @@ error_symbol = "[](238)"
 
 # Shows an icon that should be included by zshrc script based on the distribution or os
 [env_var.STARSHIP_DISTRO]
-format = '[$env_value](bold white)'  # removed space between distro and rest for pwsh
+format = '[$env_value](white)'
 variable = "STARSHIP_DISTRO"
 disabled = false
 
 # Shows the username
 [username]
-style_user = "white bold"
-style_root = "black bold"
+style_user = "white"
+style_root = "white"
 format = "[$user]($style) "
-disabled = true  # disable in powershell
-show_always = false
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "on [$hostname](bold yellow) "
+disabled = false
 
 [directory]
 truncation_length = 3
@@ -37,7 +45,7 @@ format = "at [$path]($style)[$read_only]($read_only_style) "
 
 [git_branch]
 symbol = " "
-format = "on [$symbol$branch]($style) "
+format = "via [$symbol$branch]($style) "
 truncation_length = 4
 truncation_symbol = "…/"
 style = "bold green"
@@ -81,8 +89,11 @@ disabled = true
 format = "via [ $version]($style) "
 
 [kubernetes]
-format = 'on [ $context\($namespace\)](bold purple) '
+format = 'via [ﴱ $context\($namespace\)](bold purple) '
 disabled = false
 [kubernetes.context_aliases]
-"clcreative-k8s-staging" = "cl-k8s-staging"
-"clcreative-k8s-production" = "cl-k8s-prod"
+"do-fra1-prod-k8s-clcreative" = " lgcy-1"
+"infra-home-kube-prod-1" = " prod-1"
+"infra-home-kube-prod-2" = " prod-2"
+"infra-cloud-kube-prod-1" = " prod-1"
+"infra-cloud-kube-test-1" = " test-1"
