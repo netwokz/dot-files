@@ -148,7 +148,7 @@ function setup_shell(){
     #echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshrc
     echo "eval "$(starship init bash)"" >> ~/.bashrc
     #echo "eval '$(starship init zsh)'" >> ~/.zshrc
-
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 startsudo
 install_yay
