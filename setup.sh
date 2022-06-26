@@ -128,7 +128,7 @@ function copy_custom_files(){
 }
 
 function setup_shell(){
-    touch -p ~/.histfile
+    touch ~/.histfile
     cp -a $workdir/starship/starship.toml ~/.config/starship.toml
     chsh -s $(which zsh)
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
@@ -144,6 +144,7 @@ pac_install_pkg
 aur_install_pkg
 
 copy_custom_files
+setup_shell
 
 reboot
 
