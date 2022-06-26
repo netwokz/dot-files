@@ -109,6 +109,8 @@ function aur_install_pkg(){
 
 function copy_custom_files(){
     mkdir -p ~/Downloads
+    sudo mkdir -p /usr/local/share/fonts/ttf
+    cp -a $workdir/JetBrains.ttf /usr/local/share/fonts/ttf/
     cp -a $workdir/xmobar/. ~/.config/xmobar/
     cp -a $workdir/xmonad/. ~/.xmonad/
     cp -a $workdir/rofi/. ~/.config/rofi/
@@ -116,6 +118,7 @@ function copy_custom_files(){
     sudo cp -a $workdir/powermenu/powermenu /usr/bin/
     cp -a $workdir/system76.png ~/Downloads/
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
+    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s kitty
     xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
     #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
     xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
