@@ -110,7 +110,7 @@ function aur_install_pkg(){
 function copy_custom_files(){
     mkdir -p ~/Downloads
     sudo mkdir -p /usr/local/share/fonts/ttf
-    cp -a $workdir/JetBrains.ttf /usr/local/share/fonts/ttf/
+    sudo cp -a $workdir/JetBrains.ttf /usr/local/share/fonts/ttf/
     cp -a $workdir/xmobar/. ~/.config/xmobar/
     cp -a $workdir/xmonad/. ~/.xmonad/
     cp -a $workdir/rofi/. ~/.config/rofi/
