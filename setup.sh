@@ -19,27 +19,11 @@ mkcd() { mkdir -p "$1" && cd "$1"; }
 test "$UID" -gt 0 || { info "don't run this as root!"; exit; }
 
 # ask for user password once, set timestamp. see sudo(8)
-#info "setting / verifying sudo timestamp"
-#sudo -v
+info "setting / verifying sudo timestamp"
+sudo -v
 
-# Ask for superuser password, and add $USER to /etc/sudoers for the duration of the script.
-
-/usr/bin/sudo -E -v || exit 1
-
-USER_SUDOER="${USER} ALL=(ALL) NOPASSWD: ALL"
-
-reset_sudoers() {
-  echo -b 'Resetting /etc/sudoers …'
-  /usr/bin/sudo -E -- /usr/bin/sed -i '' "/^${USER_SUDOER}/d" /etc/sudoers
-}
-
-if type remove_dotfiles_dir &>/dev/null; then
-  trap 'remove_dotfiles_dir; reset_sudoers' EXIT
-else
-  trap reset_sudoers EXIT
-fi
-
-echo "${USER_SUDOER}" | /usr/bin/sudo -E -- /usr/bin/tee -a /etc/sudoers >/dev/null
+# Keep-alive: update existing sudo time stamp if set, otherwise do nothing.
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # make sure we can even build packages
 info "we need packages from 'base-devel'"
