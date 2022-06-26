@@ -132,7 +132,7 @@ function setup_shell(){
     cp -a $workdir/starship/starship.toml ~/.config/starship.toml
     chsh -s $(which zsh)
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
-    echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshhrc
+    echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshrc
     echo "eval '$(starship init bash)'" >> ~/.bashrc
     echo "eval '$(starship init zsh)'" >> ~/.zshrc
 
