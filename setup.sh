@@ -130,7 +130,7 @@ function copy_custom_files(){
 function setup_shell(){
     touch ~/.histfile
     cp -a $workdir/starship/starship.toml ~/.config/starship.toml
-    cp -a $workdir/zsh/zshrc ~/zshrc
+    cp -a $workdir/zsh/zshrc ~/.zshrc
     chsh -s $(which zsh)
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
     #echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshrc
