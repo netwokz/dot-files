@@ -132,9 +132,9 @@ function copy_custom_files(){
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s kitty
     xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
-    #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
-    #feh --bg-scale ~/Downloads/system76.png
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace/last-image -s $workdir/system76.png
+    #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
+    feh --bg-scale ~/Downloads/system76.png
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
 }
@@ -148,7 +148,7 @@ function setup_shell(){
     #echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshrc
     echo "eval "$(starship init bash)"" >> ~/.bashrc
     #echo "eval '$(starship init zsh)'" >> ~/.zshrc
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    #sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 startsudo
 install_yay
