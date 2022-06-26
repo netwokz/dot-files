@@ -130,21 +130,28 @@ function copy_custom_files(){
 function setup_shell(){
     touch ~/.histfile
     cp -a $workdir/starship/starship.toml ~/.config/starship.toml
+    cp -a $workdir/zsh/zshrc ~/zshrc
     chsh -s $(which zsh)
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
-    echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshrc
-    echo "eval '$(starship init bash)'" >> ~/.bashrc
-    echo "eval '$(starship init zsh)'" >> ~/.zshrc
+    #echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshrc
+    echo "eval "$(starship init bash)"" >> ~/.bashrc
+    #echo "eval '$(starship init zsh)'" >> ~/.zshrc
 
 }
 
-#pac_remove_pkg
+sudo_me() {
+ while [ -f $sudo_stat ]; do
+  echo "checking $$ ...$(date)"
+  sudo -v
+  sleep 5
+ done &
+}
+
+sudo_me
+
 install_yay
-sudo -v
 pac_install_pkg
-sudo -v
 aur_install_pkg
-sudo -v
 copy_custom_files
 setup_shell
 

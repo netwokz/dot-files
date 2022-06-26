@@ -11,3 +11,7 @@ zstyle :compinstall filename '/home/netwokz/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+
+alias ls='lsd -la --group-directories-first'
+
+eval "$(starship init zsh)"
