@@ -140,7 +140,7 @@ function setup_shell(){
 }
 
 sudo_me() {
- while [ -f $sudo_stat ]; do
+ while []; do
   echo "checking $$ ...$(date)"
   sudo -v
   sleep 5
