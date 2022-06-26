@@ -22,12 +22,21 @@ test "$UID" -gt 0 || { info "don't run this as root!"; exit; }
 info "setting / verifying sudo timestamp"
 sudo -v
 
-# Keep-alive: update existing sudo time stamp if set, otherwise do nothing.
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
 # make sure we can even build packages
 info "we need packages from 'base-devel'"
 sudo pacman -S --noconfirm base-devel
+
+startsudo() {
+    sudo -v
+    ( while true; do sudo -v; sleep 50; done; ) &
+    SUDO_PID="$!"
+    trap stopsudo SIGINT SIGTERM
+}
+stopsudo() {
+    kill "$SUDO_PID"
+    trap - SIGINT SIGTERM
+    sudo -k
+}
 
 function install_yay(){
     # which packages to install from AUR, in this order!
@@ -141,7 +150,7 @@ function setup_shell(){
     #echo "eval '$(starship init zsh)'" >> ~/.zshrc
 
 }
-
+startsudo
 install_yay
 pac_install_pkg
 aur_install_pkg
@@ -149,6 +158,7 @@ copy_custom_files
 setup_shell
 
 reboot
+stopsudo
 
 function make_install(){
     cd /home/netwokz/
