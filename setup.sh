@@ -136,13 +136,13 @@ function copy_custom_files(){
     cp -a $workdir/rofi/. ~/.config/rofi/
     cp -a $workdir/powermenu/powermenu-theme.rasi ~/.config/rofi/
     sudo cp -a $workdir/powermenu/powermenu /usr/bin/
-    cp -a $workdir/code-wallpaper.png ~/Downloads/
+    cp -a $workdir/code-wallpaper.jpg ~/Downloads/
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s kitty
     xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.png
-    #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
-    feh --bg-scale ~/Downloads/code-wallpaper.png
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.jpg
+    #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.jpg
+    feh --bg-scale ~/Downloads/code-wallpaper.jpg
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
 }
