@@ -1,10 +1,30 @@
 #!/bin/bash
 
+# ----------------------------------
+# Colors
+# ----------------------------------
+NOCOLOR='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+LIGHTGRAY='\033[0;37m'
+DARKGRAY='\033[1;30m'
+LIGHTRED='\033[1;31m'
+LIGHTGREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+LIGHTBLUE='\033[1;34m'
+LIGHTPURPLE='\033[1;35m'
+LIGHTCYAN='\033[1;36m'
+WHITE='\033[1;37m'
+
 # save current working directory
 workdir=$PWD
 
 # packages to install
-pacman_packages=("thunar" "thunar-volman" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship")
+pacman_packages=("thunar" "thunar-volman" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship" "xpad")
 
 # aur packages to install
 aur_packages=("visual-studio-code-bin" "google-chrome" "snapd")
@@ -25,18 +45,6 @@ sudo -v
 # make sure we can even build packages
 info "we need packages from 'base-devel'"
 sudo pacman -S --noconfirm base-devel
-
-startsudo() {
-    sudo -v
-    ( while true; do sudo -v; sleep 50; done; ) &
-    SUDO_PID="$!"
-    trap stopsudo SIGINT SIGTERM
-}
-stopsudo() {
-    kill "$SUDO_PID"
-    trap - SIGINT SIGTERM
-    sudo -k
-}
 
 function install_yay(){
     # which packages to install from AUR, in this order!
@@ -93,10 +101,10 @@ function pac_remove_pkg(){
 function pac_install_pkg(){
     for pkg in ${pacman_packages[@]};do
         if [[ $(command -v $pkg) ]]; then
-            echo "$pkg is already installed"
+            echo -e "${GREEN}$pkg is already installed${NOCOLOR}"
 
         else
-            echo "Installing $pkg"
+            echo -e "${GREEN}Installing $pkg${NOCOLOR}"
             sudo pacman -S $pkg --noconfirm --noprogressbar
         fi
     done
@@ -109,7 +117,7 @@ function aur_install_pkg(){
             if [[ $(command -v $pkg) ]]; then
                 echo "$pkg is already installed"
             else
-                echo "Installing $pkg"
+                echo -e "${GREEN}Installing $pkg${NOCOLOR}"
                 yay -S $pkg --noconfirm --answerclean None --answerdiff None
             fi            
         done
@@ -128,13 +136,13 @@ function copy_custom_files(){
     cp -a $workdir/rofi/. ~/.config/rofi/
     cp -a $workdir/powermenu/powermenu-theme.rasi ~/.config/rofi/
     sudo cp -a $workdir/powermenu/powermenu /usr/bin/
-    cp -a $workdir/system76.png ~/Downloads/
+    cp -a $workdir/code-wallpaper.png ~/Downloads/
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s kitty
     xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/system76.png
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.png
     #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.png
-    feh --bg-scale ~/Downloads/system76.png
+    feh --bg-scale ~/Downloads/code-wallpaper.png
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
 }
@@ -150,7 +158,7 @@ function setup_shell(){
     #echo "eval '$(starship init zsh)'" >> ~/.zshrc
     #sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
-startsudo
+
 install_yay
 pac_install_pkg
 aur_install_pkg
@@ -158,7 +166,6 @@ copy_custom_files
 setup_shell
 
 reboot
-stopsudo
 
 function make_install(){
     cd /home/netwokz/
