@@ -4,7 +4,7 @@
 lock=""
 logout=""
 shutdown=""
-reboot=""
+reboot=""
 sleep=""
  
 # Get answer from user via rofi
@@ -18,7 +18,7 @@ $shutdown" | rofi -dmenu\
 # Do something based on selected option
 if [ "$selected_option" == "$lock" ]
 then
-    slock
+    betterlockscreen -l dimpixel
 elif [ "$selected_option" == "$logout" ]
 then
     loginctl terminate-user `whoami`

@@ -1,6 +1,4 @@
---
 -- Start Imports
---
 
 import XMonad
 import Data.Monoid
@@ -9,18 +7,16 @@ import XMonad.Util.SpawnOnce
 import XMonad.Util.Run
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Cursor
+import XMonad.Layout.LayoutModifier
+import XMonad.Layout.Spacing
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
---
 -- End Imports
---
 
--- The preferred terminal program, which is used in a binding below and by
--- certain contrib modules.
---
-myTerminal      = "kitty"
+-- The preferred terminal program
+myTerminal      = "alacritty"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -31,14 +27,16 @@ myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
 -- Width of the window border in pixels.
---
-myBorderWidth   = 3
+myBorderWidth   = 2
+
+--Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
+mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
---
 myModMask       = mod4Mask
 
 -- The default number of workspaces (virtual screens) and their names.
@@ -49,13 +47,11 @@ myModMask       = mod4Mask
 -- A tagging example:
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
---
 myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 
 -- Border colors for unfocused and focused windows, respectively.
---
 myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
+myFocusedBorderColor = "#86c8ff"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -70,6 +66,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch powermenu
     , ((modm,               xK_p     ), spawn "powermenu")
+
+    -- launch chrome
+    , ((modm,               xK_c     ), spawn "google-chrome-stable")
+
+    -- launch thunar
+    , ((modm,               xK_e     ), spawn "thunar")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -126,7 +128,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ((modm              , xK_q     ), spawn "xmonad --restart")
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
@@ -163,8 +165,9 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 --
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
---
-myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
+
+myLayout = mySpacing 8
+  $avoidStruts (tiled ||| Mirror tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -199,7 +202,9 @@ myManageHook = composeAll
     , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
-    , className =? "xpad"           --> doFloat ]
+    , className =? "xpad"           --> doFloat
+    --, className =? "remote-viewer"  --> doFloat 
+    ]
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -231,6 +236,7 @@ myLogHook = return ()
 myStartupHook = do
     spawnOnce "nitrogen --restore &"
     spawnOnce "picom &"
+    spawn "~/.config/polybar/launcher.sh &"
     setDefaultCursor xC_left_ptr
 
 ------------------------------------------------------------------------
@@ -239,7 +245,7 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-    xmproc <- spawnPipe "xmobar /home/netwokz/.config/xmobar/xmobarrc" 
+    --xmproc <- spawnPipe "xmobar /home/netwokz/.config/xmobar/xmobarrc" 
     xmonad $ docks defaults
 
 -- A structure containing your configuration settings, overriding
