@@ -42,6 +42,8 @@ test "$UID" -gt 0 || { info "don't run this as root!"; exit; }
 info "setting / verifying sudo timestamp"
 sudo -v
 
+sudo pacman -Sy
+
 # make sure we can even build packages
 info "we need packages from 'base-devel'"
 sudo pacman -S --noconfirm base-devel
