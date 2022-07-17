@@ -24,7 +24,7 @@ WHITE='\033[1;37m'
 workdir=$PWD
 
 # packages to install
-pacman_packages=("thunar" "thunar-volman" "micro" "kitty" "xmonad" "xmonad-contrib" "xmobar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship" "xpad")
+pacman_packages=("thunar" "thunar-volman" "micro" "alacritty" "xmonad" "xmonad-contrib" "polybar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship" "xpad")
 
 # aur packages to install
 aur_packages=("visual-studio-code-bin" "google-chrome" "snapd")
@@ -131,17 +131,17 @@ function copy_custom_files(){
     mkdir -p ~/Downloads
     sudo mkdir -p /usr/local/share/fonts/ttf
     sudo cp -a $workdir/JetBrains.ttf /usr/local/share/fonts/ttf/
-    cp -a $workdir/xmobar/. ~/.config/xmobar/
+    cp -a $workdir/polybar/. ~/.config/polybar/
     cp -a $workdir/xmonad/. ~/.xmonad/
     cp -a $workdir/rofi/. ~/.config/rofi/
     cp -a $workdir/powermenu/powermenu-theme.rasi ~/.config/rofi/
     sudo cp -a $workdir/powermenu/powermenu /usr/bin/
     cp -a $workdir/code-wallpaper.jpg ~/Downloads/
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
-    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s kitty
-    xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
+    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>e' -s thunar
+    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s alacritty
+    # xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
     xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.jpg
-    #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual-1/workspace0/last-image -s ~/Downloads/system76.jpg
     feh --bg-scale ~/Downloads/code-wallpaper.jpg
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
@@ -153,10 +153,8 @@ function setup_shell(){
     cp -a $workdir/zsh/zshrc ~/.zshrc
     chsh -s $(which zsh)
     echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
-    #echo "alias ls='lsd -la --group-directories-first'" >> ~/.zshrc
     echo "eval "$(starship init bash)"" >> ~/.bashrc
-    #echo "eval '$(starship init zsh)'" >> ~/.zshrc
-    #sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 }
 
 install_yay
