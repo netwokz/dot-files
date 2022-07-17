@@ -58,7 +58,7 @@ function install_yay(){
     mkcd "$buildroot"
 
     # set link to plaintext PKGBUILDs
-    pkgbuild="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h"
+    pkgbuild="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=git-git"
     info "using '$pkgbuild=<package>' for plaintext PKGBUILDs"
 
     # loop over required packages
