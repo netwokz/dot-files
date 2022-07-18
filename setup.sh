@@ -24,7 +24,7 @@ WHITE='\033[1;37m'
 workdir=$PWD
 
 # packages to install
-pacman_packages=("thunar" "thunar-volman" "micro" "alacritty" "xmonad" "xmonad-contrib" "polybar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship" "xpad")
+pacman_packages=("thunar" "thunar-volman" "micro" "alacritty" "xmonad" "xmonad-contrib" "polybar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship" "xpad" "jq" "betterlockscreen")
 
 # aur packages to install
 aur_packages=("visual-studio-code-bin" "google-chrome" "snapd")
@@ -131,7 +131,11 @@ function copy_custom_files(){
     mkdir -p ~/Downloads
     sudo mkdir -p /usr/local/share/fonts/ttf
     sudo cp -a $workdir/JetBrains.ttf /usr/local/share/fonts/ttf/
+    sudo cp -a $workdir/weathericons.ttf /usr/local/share/fonts/ttf/
     cp -a $workdir/polybar/. ~/.config/polybar/
+    cp -a $workdir/betterlockscreen/. ~/.config/betterlockscreen/
+    cp -a $workdir/alacritty/. ~/.config/alacritty/
+    cp -a $workdir/neofetch/. ~/.config/neofetch/
     cp -a $workdir/xmonad/. ~/.xmonad/
     cp -a $workdir/rofi/. ~/.config/rofi/
     cp -a $workdir/powermenu/powermenu-theme.rasi ~/.config/rofi/
@@ -140,21 +144,19 @@ function copy_custom_files(){
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>e' -s thunar
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s alacritty
-    # xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.jpg
+    xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
+    # xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.jpg
     feh --bg-scale ~/Downloads/code-wallpaper.jpg
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
 }
 
 function setup_shell(){
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     touch ~/.histfile
     cp -a $workdir/starship/starship.toml ~/.config/starship.toml
     cp -a $workdir/zsh/zshrc ~/.zshrc
     chsh -s $(which zsh)
-    echo "alias ls='lsd -la --group-directories-first'" >> ~/.bashrc
-    echo "eval "$(starship init bash)"" >> ~/.bashrc
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 }
 
 install_yay
