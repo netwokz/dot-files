@@ -24,10 +24,10 @@ WHITE='\033[1;37m'
 workdir=$PWD
 
 # packages to install
-pacman_packages=("thunar" "thunar-volman" "micro" "alacritty" "xmonad" "xmonad-contrib" "polybar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship" "xpad" "jq" "betterlockscreen")
+pacman_packages=("thunar" "thunar-volman" "micro" "alacritty" "xmonad" "xmonad-contrib" "polybar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship" "xpad" "jq")
 
 # aur packages to install
-aur_packages=("visual-studio-code-bin" "google-chrome" "snapd")
+aur_packages=("visual-studio-code-bin" "google-chrome" "snapd" "betterlockscreen")
 
 # exit on errors
 set -e
