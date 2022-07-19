@@ -145,7 +145,7 @@ function copy_custom_files(){
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>e' -s thunar
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s alacritty
     xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
-    # xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.jpg
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.jpg
     feh --bg-scale ~/Downloads/code-wallpaper.jpg
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
