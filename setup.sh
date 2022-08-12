@@ -27,7 +27,7 @@ workdir=$PWD
 pacman_packages=("thunar" "thunar-volman" "micro" "alacritty" "xmonad" "xmonad-contrib" "polybar" "rofi" "nitrogen" "picom" "lsd" "feh" "bottom" "neofetch" "gvfs" "gvfs-smb" "zsh" "starship" "xpad" "jq")
 
 # aur packages to install
-aur_packages=("visual-studio-code-bin" "google-chrome" "snapd" "betterlockscreen")
+aur_packages=("visual-studio-code-bin" "google-chrome" "snapd" "betterlockscreen" "ly")
 
 # exit on errors
 set -e
@@ -138,21 +138,24 @@ function copy_custom_files(){
     cp -a $workdir/neofetch/. ~/.config/neofetch/
     cp -a $workdir/xmonad/. ~/.xmonad/
     cp -a $workdir/rofi/. ~/.config/rofi/
-    cp -a $workdir/powermenu/powermenu-theme.rasi ~/.config/rofi/
     sudo cp -a $workdir/powermenu/powermenu /usr/bin/
-    cp -a $workdir/code-wallpaper.jpg ~/Downloads/
-    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>r' -s powermenu
+    sudo cp -a $workdir/scripts/systemd-timers/. /usr/lib/systemd/system/
+    sudo systemctl start updateRepositories.timer
+    sudo systemctl enable updateRepositories.timer
+    cp -a $workdir/wallpapers/. ~/Downloads/
+    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>p' -s powermenu
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>e' -s thunar
     xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>t' -s alacritty
-    xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>p' --type string --set  'rofi -show drun'
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-0/workspace0/last-image -s $workdir/code-wallpaper.jpg
-    feh --bg-scale ~/Downloads/code-wallpaper.jpg
+    xfconf-query -c xfce4-keyboard-shortcuts -n -t 'string' -p '/commands/custom/<Super>c' -s google-chrome-stable
+    xfconf-query --create --channel xfce4-keyboard-shortcuts --property '/commands/custom/<Super>Return' --type string --set  'rofi -show drun'
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorDisplayPort-2/workspace0/last-image -s $workdir/wallpapers/server_room.jpg
+    betterlockscreen -u ~/Downloads/server_room.jpg
     sudo systemctl enable --now snapd.socket
     sudo ln -s /var/lib/snapd/snap /snap
 }
 
 function setup_shell(){
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
     touch ~/.histfile
     cp -a $workdir/starship/starship.toml ~/.config/starship.toml
     cp -a $workdir/zsh/zshrc ~/.zshrc

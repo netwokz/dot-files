@@ -1,33 +1,34 @@
-#!/bin/env bash
- 
-# Options for powermenu
+#!/usr/bin/env bash
+
+theme="card_rounded"
+dir="$HOME/.config/rofi/powermenu"
+
+uptime=$(uptime -p | sed -e 's/up //g')
+
+rofi_command="rofi -theme $dir/$theme"
+
+# Options
 lock=""
 logout=""
 shutdown=""
 reboot=""
 sleep=""
- 
-# Get answer from user via rofi
-selected_option=$(echo "$lock
-$logout
-$reboot
-$shutdown" | rofi -dmenu\
-                  -i\
-                  -p "Power"\
-		  -theme "~/.config/rofi/powermenu-theme.rasi")
-# Do something based on selected option
-if [ "$selected_option" == "$lock" ]
-then
-    betterlockscreen -l dimpixel
-elif [ "$selected_option" == "$logout" ]
-then
-    loginctl terminate-user `whoami`
-elif [ "$selected_option" == "$shutdown" ]
-then
-    doas systemctl poweroff
-elif [ "$selected_option" == "$reboot" ]
-then
-    doas systemctl reboot
-else
-    echo "No match"
-fi
+
+# Variable passed to rofi
+options="$shutdown\n$reboot\n$lock\n$logout"
+
+chosen="$(echo -e "$options" | $rofi_command -p "Uptime: $uptime" -dmenu -selected-row 2)"
+case $chosen in
+    $shutdown)
+			systemctl poweroff
+        ;;
+    $reboot)
+			systemctl reboot
+        ;;
+    $lock)
+			betterlockscreen -l dimpixel
+        ;;
+    $logout)
+			kill -9 -1
+        ;;
+esac
